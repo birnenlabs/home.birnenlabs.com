@@ -6,6 +6,7 @@ const CONFIG_PARAM_NAME = 'c';
 const DEFAULT_CONFIGURATION: Configuration = {
   widgets: [
     {
+      type: 'link',
       name: 'Birnenlabs',
       url: 'https://birnenlabs.com',
     },

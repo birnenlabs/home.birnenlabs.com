@@ -1,4 +1,4 @@
-import { configFromUrl, Configuration, ConfigurationLink } from '../configuration/config';
+import { configFromUrl, Configuration } from '../configuration/config';
 
 
 export class AppView {
