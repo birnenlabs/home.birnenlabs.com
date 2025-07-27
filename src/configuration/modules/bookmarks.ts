@@ -9,6 +9,7 @@ export default class Bookmarks implements Module {
   }
 
   render(div: HTMLDivElement, config: object): void {
+    console.log(div, config);
     throw new Error("Method not implemented.");
   }
 
