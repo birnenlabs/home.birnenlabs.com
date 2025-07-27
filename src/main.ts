@@ -3,8 +3,6 @@ import './style.css'
 import { Loader } from './configuration/loader';
 import { SettingsView } from './view/settings';
 
-let settingsView: SettingsView;
-
 /**
  * Asynchronously extracts and decodes a configuration object from a URL's GET parameter.
  * @param url The full URL string to process (e.g., window.location.href).
@@ -34,7 +32,7 @@ function initializePage(): Promise<any> {
 
   const appViewPromise = loaderPromise;
   const setingsViewPromise = loaderPromise
-    .then(l => (settingsView = new SettingsView(l)))
+    .then(l => new SettingsView(l))
     .then(s => s.render());
 
   return Promise.all([appViewPromise, setingsViewPromise]);
