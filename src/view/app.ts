@@ -1,4 +1,4 @@
-import { configFromUrl, Configuration } from '../configuration/config';
+import { configFromUrl, Configuration, ConfigurationType } from '../configuration/config';
 
 
 export class AppView {
@@ -15,13 +15,13 @@ export class AppView {
     return configFromUrl()
       .then((config: Configuration) => {
         this.modules.innerHTML = '';
-        (config.widgets || []).forEach((widget) => {
+        (config.elements || []).forEach((widget) => {
 
           switch (widget.type) {
-            case 'link':
+            case ConfigurationType.Link:
               const imgEl = document.createElement('img');
               imgEl.onerror = () => imgEl.src = '#';
-              imgEl.src = 'https://www.google.com/s2/favicons?domain=' + new URL(widget.url || '#').hostname;
+              imgEl.src = widget.favicon || 'https://www.google.com/s2/favicons?domain=' + new URL(widget.url || '#').hostname;
 
               const aEl = document.createElement('a');
               aEl.title = widget.name || '';
@@ -31,7 +31,7 @@ export class AppView {
               this.modules.appendChild(aEl);
               break;
 
-            case 'weather':
+            case ConfigurationType.Weather:
               // TypeScript now knows `widget` is a ConfigurationWeather
               console.log(widget.location);
               break;

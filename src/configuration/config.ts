@@ -1,12 +1,20 @@
 import { deflate, inflate } from 'fflate';
 import { toBase64URL, fromBase64URL } from './base64';
 
+export enum ConfigurationType {
+  Unknown = 'u',
+  Link = 'l',
+  Weather = 'w',
+}
+
+export type ConfigurationElement = ConfigurationLink | ConfigurationWeather;
+
 const CONFIG_PARAM_NAME = 'c';
 
 const DEFAULT_CONFIGURATION: Configuration = {
-  widgets: [
+  elements: [
     {
-      type: 'link',
+      type: ConfigurationType.Link,
       name: 'Birnenlabs',
       url: 'https://birnenlabs.com',
     },
@@ -40,23 +48,25 @@ export function configToUrl(config: Configuration): Promise<URL> {
     );
 }
 
+
 /**
  * Defines the structure of the application's configuration.
  * All fields are optional to provide compatibility between
  * future and past versions.
  */
 export interface Configuration {
-  widgets?: (ConfigurationLink | ConfigurationWeather)[];
+  elements?: ConfigurationElement[];
 }
 
 export interface ConfigurationLink {
-  type: 'link',
+  type: ConfigurationType.Link,
   name?: string;
   url?: string;
+  favicon?: string;
 }
 
 export interface ConfigurationWeather {
-  type: 'weather',
+  type: ConfigurationType.Weather,
   location?: string;
 }
 
@@ -65,11 +75,11 @@ function objToConfiguration(obj: any): Configuration {
     throw new Error('Input must be a non-null object.');
   }
 
-  if ('widgets' in obj && !Array.isArray(obj.widgets)) {
+  if ('elements' in obj && !Array.isArray(obj.elements)) {
     throw new Error('The "widgets" property must be an array if it exists.');
   }
 
-  for (const item of obj.widgets || []) {
+  for (const item of obj.elements || []) {
     if (typeof item !== 'object' || item === null) {
       throw new Error('Each widget must be a non-null object.');
     }

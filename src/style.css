@@ -4,10 +4,44 @@
 
 body {
   margin: 0;
-
 }
 
-#app {
-
+.hidden {
+  display: none;
 }
 
+
+#settings-addBookmark-preview {
+  height: 32px;
+}
+
+#settings-elementsList {
+  .bookmark {
+    border: 1px solid black;
+    margin-bottom: 12px;
+    padding: 6px;
+  }
+}
+
+/*
+  Hide the UP button when it's inside the FIRST item (div:first-child).
+*/
+#settings-elementsList-list > div:first-child .settings-elementsList-btnUp {
+  display: none;
+}
+
+/*
+  Hide the DOWN button when it's inside the LAST item (div:last-child).
+*/
+#settings-elementsList-list > div:last-child .settings-elementsList-btnDown {
+  display: none;
+}
+
+#settings-link {
+  overflow-wrap: anywhere;
+}
+
+#settings-debugConfig {
+  height: 200px;
+  width: 100%;
+}

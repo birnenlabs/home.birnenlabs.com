@@ -17,10 +17,38 @@
 
   <div id="settings">
     <div>
-      <p>Modules:</p>
-      <textarea id="taModules"></textarea>
-      <button id="btnCreateLink">Create Link</button>
-      <a href="#" id="linkWithConfig">Link</a>
+      <h1>Add bookmark</h1>
+      <div id="settings-addBookmark">
+        <label for="settings-addBookmark-name">Name:</label>
+        <input id="settings-addBookmark-name" type="text" />
+        <label for="settings-addBookmark-url">URL:</label>
+        <input id="settings-addBookmark-url" type="text" />
+        <label for="settings-addBookmark-favicon">Favicon:</label>
+        <input id="settings-addBookmark-favicon" type="text" />
+        <img id="settings-addBookmark-preview" src="/empty.svg" alt="Favicon Preview" />
+        <button id="settings-addBookmark-add">Add</button>
+      </div>
+
+      <h1>Page Elements</h1>
+      <div id="settings-elementsList">
+        <template id="settings-elementsList-bookmarkTemplate">
+          <div class="bookmark">
+            <img class="favicon" src="/empty.svg" alt="Favicon" />
+            <span class="name"></span>
+            <span class="url"></span>
+            <button class="up">Up</button>
+            <button class="down">Down</button>
+            <button class="delete">Delete</button>
+          </div>
+        </template>
+
+        <div id="settings-elementsList-list"></div>
+      </div>
+
+      <a id="settings-link" href="#">Link</a>
+      <button id="settings-showRawConfig">Show Raw Configuration</button>
+      <pre id="settings-rawConfig" class="hidden"></pre>
+      
     </div>
   </div>
 </body>

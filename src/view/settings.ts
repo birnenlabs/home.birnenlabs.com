@@ -1,40 +1,51 @@
-import { configFromUrl, configToUrl, Configuration } from '../configuration/config';
+import {  configToUrl, Configuration, ConfigurationElement } from '../configuration/config';
+import { SettingsAddBookmarkView } from './settings-add_bookmark';
+import { SettingsElementsListView } from './settings-elements_list';
+
+export const EMPTY_SVG = '/empty.svg';
+export const LOADING_IMG = '/loading.svg';
 
 export class SettingsView {
 
-  readonly modulesTextArea: HTMLTextAreaElement;
-  readonly linkWithConfig: HTMLAnchorElement;
-  readonly btnCreateLink: HTMLButtonElement;
+  readonly settingsAddBookmarkView: SettingsAddBookmarkView;
+  readonly settingsElementsListView: SettingsElementsListView;
 
-  constructor() {
-    this.modulesTextArea = document.getElementById('taModules') as HTMLTextAreaElement;
-    this.linkWithConfig = document.getElementById('linkWithConfig') as HTMLAnchorElement;
-    this.btnCreateLink = document.getElementById('btnCreateLink') as HTMLButtonElement;
-    if (!this.modulesTextArea || !this.linkWithConfig || !this.btnCreateLink) {
-      throw new Error('Fatal Error: required elements not found in the DOM!');
-    }
-    this.btnCreateLink.addEventListener('click', this.btnCreateLinkClick.bind(this));
+  readonly link = document.getElementById('settings-link') as HTMLAnchorElement;
+  readonly showRawConfigButton = document.getElementById('settings-showRawConfig') as HTMLButtonElement;
+  readonly rawConfig = document.getElementById('settings-rawConfig') as HTMLPreElement;
+
+
+  constructor(configuration: Configuration) {
+    this.settingsAddBookmarkView =
+      new SettingsAddBookmarkView(configElement => this.addConfigElement(configElement));
+    this.settingsElementsListView = new SettingsElementsListView(configuration.elements || [], () => this.render());
+
+    this.showRawConfigButton.addEventListener('click', this.showRawConfigButtonClick.bind(this));
   }
 
   public render(): Promise<any> {
-    return configFromUrl()
-      .then(config => {
-        this.modulesTextArea.value = JSON.stringify(config, null, 2);
-        return config;
-      }).then(() => this.updateUrlFromConfig());
+    const configuration: Configuration = {
+      elements: this.settingsElementsListView.getConfigElements(),
+    };
+    this.rawConfig.textContent = JSON.stringify(configuration, null, 2);
+    return this.updateLink(configuration);
   }
 
-  private updateUrlFromConfig(): Promise<any> {
-    const conf = JSON.parse(this.modulesTextArea.value) as Configuration;
-    return configToUrl(conf)
+  private addConfigElement(configElement: ConfigurationElement): Promise<any> {
+    this.settingsElementsListView.addConfigElement(configElement);
+    return this.render();
+  }
+
+  private showRawConfigButtonClick() {
+    this.rawConfig.classList.remove('hidden');
+    this.showRawConfigButton.classList.add('hidden');
+  }
+
+  private updateLink(configuration: Configuration): Promise<any> {
+    return configToUrl(configuration)
       .then(url => {
-        this.linkWithConfig.innerText = url.toString();
-        this.linkWithConfig.href = url.toString();
+        this.link.innerText = url.toString();
+        this.link.href = url.toString();
       });
   }
-
-  private btnCreateLinkClick(): Promise<any> {
-    return this.updateUrlFromConfig();
-  }
 }
-
