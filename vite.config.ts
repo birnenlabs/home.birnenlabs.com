@@ -39,6 +39,11 @@ export default defineConfig({
                 // Cache for 30 days
                 maxAgeSeconds: 60 * 60 * 24 * 30,
               },
+              cacheableResponse: {
+                // A status of 0 is what the service worker sees for
+                // a successful opaque response.
+                statuses: [0, 200],
+              },
             },
           },
         ],
