@@ -1,4 +1,4 @@
-import {  configToUrl, Configuration, ConfigurationElement } from '../configuration/config';
+import { configToUrl, Configuration, ConfigurationElement } from '../configuration/config';
 import { SettingsAddBookmarkView } from './settings-add_bookmark';
 import { SettingsElementsListView } from './settings-elements_list';
 
@@ -10,6 +10,7 @@ export class SettingsView {
   readonly settingsAddBookmarkView: SettingsAddBookmarkView;
   readonly settingsElementsListView: SettingsElementsListView;
 
+  readonly settingsContainer = document.getElementById('settings') as HTMLDivElement;
   readonly link = document.getElementById('settings-link') as HTMLAnchorElement;
   readonly showRawConfigButton = document.getElementById('settings-showRawConfig') as HTMLButtonElement;
   readonly rawConfig = document.getElementById('settings-rawConfig') as HTMLPreElement;
@@ -28,7 +29,12 @@ export class SettingsView {
       elements: this.settingsElementsListView.getConfigElements(),
     };
     this.rawConfig.textContent = JSON.stringify(configuration, null, 2);
+    this.settingsContainer.style.display = 'block';
     return this.updateLink(configuration);
+  }
+
+  public destroy(): void {
+    this.settingsContainer.parentElement?.removeChild(this.settingsContainer);
   }
 
   private addConfigElement(configElement: ConfigurationElement): Promise<any> {

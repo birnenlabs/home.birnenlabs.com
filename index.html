@@ -10,12 +10,17 @@
 </head>
 
 <body>
-  <div id="app">
+  <!-- CSS is set directly here so it is available as soon as the app is loaded. -->
+  <div id="loading" style="position: fixed; top: calc(50% - 32px); left: calc(50% - 32px); width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.8);">
+    <img src="/loading.svg" alt="Loading" />
+  </div>
+  <div id="app" style="display: none;">
     <div id="modules"></div>
+    <button id="app-settings-button">settings</button>
   </div>
 
 
-  <div id="settings">
+  <div id="settings" style="display: none;">
     <h1>Add bookmark</h1>
     <div id="settings-addBookmark">
       <label for="settings-addBookmark-name">Name:</label>

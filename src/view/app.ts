@@ -1,42 +1,31 @@
-import { configFromUrl, Configuration, ConfigurationType } from '../configuration/config';
+import { configFromUrl, Configuration, ConfigurationType, ConfigurationLink } from '../configuration/config';
+import { getFallbackIconForUrl } from '../configuration/image';
 
 
 export class AppView {
-  readonly modules: HTMLDivElement;
+  readonly appContainer = document.getElementById('app') as HTMLDivElement;
+  readonly modules = document.getElementById('modules') as HTMLDivElement;
 
   constructor() {
-    this.modules = document.getElementById('modules') as HTMLDivElement;
-    if (!this.modules) {
-      throw new Error('Fatal Error: required elements not found in the DOM!');
-    }
   }
 
   public render(): Promise<any> {
     return configFromUrl()
       .then((config: Configuration) => {
         this.modules.innerHTML = '';
-        (config.elements || []).forEach((widget) => {
+        (config.elements || []).forEach((configElement) => {
 
-          switch (widget.type) {
+          switch (configElement.type) {
             case ConfigurationType.Link:
-              const imgEl = document.createElement('img');
-              imgEl.onerror = () => imgEl.src = '#';
-              imgEl.src = widget.favicon || 'https://www.google.com/s2/favicons?domain=' + new URL(widget.url || '#').hostname;
-
-              const aEl = document.createElement('a');
-              aEl.title = widget.name || '';
-              aEl.href = widget.url || '#';
-              aEl.appendChild(imgEl);
-
-              this.modules.appendChild(aEl);
+              this.modules.appendChild(createConfigurationLink(configElement));
               break;
 
             case ConfigurationType.Weather:
               // TypeScript now knows `widget` is a ConfigurationWeather
-              console.log(widget.location);
+              console.log(configElement.location);
               break;
             default:
-              console.warn('Unknown widget:', widget);
+              console.warn('Unknown configElement:', configElement);
           }
         });
       })
@@ -44,6 +33,34 @@ export class AppView {
         console.error('Error loading configuration:', error);
         this.modules.innerHTML = '<p>Error loading modules. Please try again later.</p>';
       }
-      );
+      )
+      .finally(() => this.appContainer.style.display = 'block');
   }
+
+  public destroy(): void {
+    this.appContainer.parentElement?.removeChild(this.appContainer);
+  }
+}
+
+function createConfigurationLink(configElement: ConfigurationLink): HTMLDivElement {
+  const linkEl = document.createElement('div');
+  linkEl.className = 'app-configElement-link';
+
+  const imgEl = document.createElement('img');
+  imgEl.onerror = () => imgEl.src = '#';
+  imgEl.src = configElement.favicon || getFallbackIconForUrl(new URL(configElement.url || '#'));
+
+  const aEl = document.createElement('a');
+  aEl.title = configElement.name || '';
+  aEl.href = configElement.url || '#';
+  aEl.appendChild(imgEl);
+  aEl.className = 'app-configElement-link-anchor';
+
+  const labelEl = document.createElement('span');
+  labelEl.className = 'app-configElement-link-label';
+  labelEl.textContent = configElement.name || '';
+
+  linkEl.appendChild(aEl);
+  linkEl.appendChild(labelEl);
+  return linkEl;
 }

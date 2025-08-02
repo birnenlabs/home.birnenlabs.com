@@ -1,0 +1,97 @@
+/* .app-configElement-link {
+  display: inline-flex;
+  flex-direction: column;
+} */
+
+#app {
+  display: flex;
+  justify-content: center; /* Horizontally center the grid */
+  align-items: center;    /* Vertically center the grid */
+  min-height: 100vh;      /* Make the app fill the full screen height */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Grid Container for Modules --- */
+#modules {
+  display: grid;
+  /* Create a responsive grid: columns are at least 100px wide */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 800px; /* Optional: prevent grid from being too wide */
+}
+
+/* --- Individual Icon & Label Container --- */
+.app-configElement-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* Space between icon and label */
+}
+
+/* --- The Clickable Icon Anchor --- */
+.app-configElement-link-anchor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+/* Hover effect to "lift" the icon */
+.app-configElement-link-anchor:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* --- The Image Inside the Icon --- */
+.app-configElement-link-anchor img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures icon fills the space nicely */
+  border-radius: 16px; /* Match the parent's border-radius */
+}
+
+/* --- The Text Label Below the Icon --- */
+.app-configElement-link-label {
+  font-size: 0.9em;
+  color: #343a40;
+  text-align: center;
+  max-width: 100px; /* Prevent long labels from breaking the layout */
+  
+  /* Ellipsis for long labels */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#app-settings-button {
+  /* Fix the button's position relative to the browser window */
+  position: fixed;
+  bottom: 20px; /* 20px from the bottom */
+  
+  /* Horizontally center the button */
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* General styling to match the app */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px; /* Pill shape */
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 0.9em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#app-settings-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  transform: translateX(-50%) translateY(-2px); /* Lifts the button slightly */
+}
