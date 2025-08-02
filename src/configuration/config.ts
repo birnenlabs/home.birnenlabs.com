@@ -1,5 +1,6 @@
 import { deflate, inflate } from 'fflate';
 import { toBase64URL, fromBase64URL } from './base64';
+import { getFallbackIconForUrl } from './image';
 
 export enum ConfigurationType {
   Unknown = 'u',
@@ -17,6 +18,7 @@ const DEFAULT_CONFIGURATION: Configuration = {
       type: ConfigurationType.Link,
       name: 'Birnenlabs',
       url: 'https://birnenlabs.com',
+      favicon: getFallbackIconForUrl(new URL('https://birnenlabs.com')),
     },
   ]
 }

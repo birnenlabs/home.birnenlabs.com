@@ -2,6 +2,8 @@ import { ConfigurationLink, ConfigurationType } from '../configuration/config';
 import { getIconForUrl } from '../configuration/image';
 import { EMPTY_SVG, LOADING_IMG } from './settings';
 
+const PROTOCOL_REGEX = /^[a-zA-Z]+:/;
+
 export class SettingsAddBookmarkView {
   readonly name: HTMLInputElement = document.getElementById('settings-addBookmark-name') as HTMLInputElement;
   readonly url: HTMLInputElement = document.getElementById('settings-addBookmark-url') as HTMLInputElement;
@@ -40,12 +42,16 @@ export class SettingsAddBookmarkView {
     this.favicon.disabled = true;
     this.preview.src = LOADING_IMG;
 
+    if (!PROTOCOL_REGEX.test(this.url.value)) {
+      this.url.value = 'https://' + this.url.value;
+    }
+
     return Promise.resolve(this.url.value)
       .then(url => getIconForUrl(new URL(url)))
       .then(faviconUrl => this.favicon.value = faviconUrl)
       .then(() => this.faviconChange())
       .catch(error => {
-        this.favicon.value = 'Unable to detect favicon';
+        this.favicon.value = '';
         this.preview.src = EMPTY_SVG;
         console.error('Error fetching icon', error);
       })

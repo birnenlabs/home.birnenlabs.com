@@ -4,22 +4,55 @@
  * @returns A Promise that resolves with the src if the image loads, and rejects if it fails.
  */
 function checkImage(src: string): Promise<string> {
-  return new Promise((resolve, reject) => {
+  const loadImgPromise = new Promise<string>((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(src);
     img.onerror = reject;
     img.src = src;
   });
+
+  return Promise.race([
+    loadImgPromise,
+    new Promise<string>((_, fail) => setTimeout(() => fail(new Error(`Timeout: ${src}`)), 5000))
+  ]);
 }
 
-/**
- * Returns a URL for Google's favicon service.
- * @param url The website URL.
- * @returns The URL to the Google favicon service.
- */
-function getGoogleFavicon(url: string): string {
-  const domain = new URL(url).hostname;
-  return `https://www.google.com/s2/favicons?sz=64&domain_url=${domain}`;
+function hslToRgb(h: number, s: number, l: number): string {
+  s /= 100;
+  l /= 100;
+  const k = (n: number) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n: number) =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+  const r = Math.round(255 * f(0));
+  const g = Math.round(255 * f(8));
+  const b = Math.round(255 * f(4));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+export function getFallbackIconForUrl(url: URL): string {
+  const letter = url.hostname.replace(/^www\./, '').charAt(0).toUpperCase();
+
+  // --- Generate Random Contrasting Pastel Colors ---
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = 50 + Math.random() * 10; // Saturation between 50-60%
+  
+  // A light pastel background color
+  const backgroundColor = hslToRgb(hue, saturation, 90); // Lightness at 90%
+
+  // A dark text color with the same hue for contrast and harmony
+  const textColor = hslToRgb(hue, saturation, 30); // Lightness at 30%
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+      <rect width="100%" height="100%" fill="${backgroundColor}"/>
+      <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-size="32" font-family="sans-serif" font-weight="bold" fill="${textColor}">
+        ${letter}
+      </text>
+    </svg>
+  `.trim();
+
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
 }
 
 /**
@@ -52,5 +85,5 @@ export function getIconForUrl(url: URL): Promise<string> {
   for (let i = checkPromises.length - 2; i >= 0; i--) {
     checkPromises[i] = checkPromises[i].catch(() => checkPromises[i + 1]);
   }
-  return checkPromises[0].catch(() => getGoogleFavicon(url.toString()));
+  return checkPromises[0].catch(() => getFallbackIconForUrl(url));
 }
