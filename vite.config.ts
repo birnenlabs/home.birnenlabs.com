@@ -32,10 +32,10 @@ export default defineConfig({
             handler: 'CacheFirst',
             options: {
               // Use a custom cache name
-              cacheName: 'external-images-cache',
+              cacheName: 'external-images-cache2',
               expiration: {
                 // Cache up to 50 images
-                maxEntries: 50,
+                maxEntries: 60,
                 // Cache for 30 days
                 maxAgeSeconds: 60 * 60 * 24 * 30,
               },
