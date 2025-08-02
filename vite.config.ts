@@ -23,25 +23,27 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Add this runtime caching rule
         runtimeCaching: [
           {
-            // Match any request that ends with a common image extension
-            urlPattern: /\.(?:png|jpg|jpeg|svg|ico)$/i,
-            // Apply a cache-first strategy
+            // This is the updated, more robust urlPattern
+            urlPattern: ({ request, url }) => {
+              // Rule only applies to cross-origin requests
+              if (url.origin === self.location.origin) {
+                return false;
+              }
+              // Cache if it's an image request OR the URL ends with an image extension
+              return request.destination === 'image' || 
+                     /\.(?:png|jpg|jpeg|svg|ico)$/i.test(url.pathname);
+            },
+              
             handler: 'CacheFirst',
             options: {
-              // Use a custom cache name
-              cacheName: 'external-images-cache2',
+              cacheName: 'external-images-cache-3',
               expiration: {
-                // Cache up to 50 images
                 maxEntries: 60,
-                // Cache for 30 days
-                maxAgeSeconds: 60 * 60 * 24 * 30,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
               },
               cacheableResponse: {
-                // A status of 0 is what the service worker sees for
-                // a successful opaque response.
                 statuses: [0, 200],
               },
             },
