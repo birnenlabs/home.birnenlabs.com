@@ -7,7 +7,6 @@
   display: flex;
   justify-content: center; /* Horizontally center the grid */
   align-items: center;    /* Vertically center the grid */
-  min-height: 100vh;      /* Make the app fill the full screen height */
   padding: 20px;
   box-sizing: border-box;
 }
