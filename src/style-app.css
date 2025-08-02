@@ -14,8 +14,8 @@
 /* --- Grid Container for Modules --- */
 #modules {
   display: grid;
-  /* Create a responsive grid: columns are at least 100px wide */
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  /* Create a responsive grid: columns are at least 70px wide */
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
   gap: 24px;
   width: 100%;
   max-width: 800px; /* Optional: prevent grid from being too wide */
@@ -60,7 +60,7 @@
   font-size: 0.9em;
   color: #343a40;
   text-align: center;
-  max-width: 100px; /* Prevent long labels from breaking the layout */
+  max-width: 70px; /* Prevent long labels from breaking the layout */
   
   /* Ellipsis for long labels */
   white-space: nowrap;
