@@ -3,36 +3,50 @@ export class PanelView {
   readonly panelContainer = document.getElementById('panel') as HTMLDivElement;
   readonly settingsButton = document.getElementById('panel-settings-button') as HTMLButtonElement;
   readonly panelGoogle = document.getElementById('panel-google') as HTMLDivElement;
-  readonly googleSearch = [...document.body.children].find(el => el instanceof HTMLTableElement);;
+  readonly styleObserver: MutationObserver;
+  // readonly googleSearch = [...document.body.children].find(el => el instanceof HTMLTableElement);;
+
+  googleSearch: HTMLTableElement | null = null;
+
 
   constructor(onSettingsButtonClick: () => void) {
+    this.styleObserver = new MutationObserver(this.styleMutationObserver.bind(this));
     this.settingsButton.addEventListener('click', onSettingsButtonClick);
-    const observer = new MutationObserver(this.styleMutationObserver.bind(this));
-    if (this.googleSearch) {
-      observer.observe(this.googleSearch, { attributes: true, attributeFilter: ['style'] });
-    } else {
-      console.error('GoogleSearch autocomplete not found');
-    }
+
+    // This observer watches for the autocomplete element to be added to the page.
+    const creationObserver = new MutationObserver((_, observer) => {
+      const googleSearch = [...document.body.children].find(el => el instanceof HTMLTableElement);
+
+      if (googleSearch) {
+        console.log('Google autocomplete container found.');
+
+        // Google code is only modifying `top` property - let's calculate the bottom property
+        // once.
+        const containerRect = this.panelContainer.getBoundingClientRect();
+        const googleRect = this.panelGoogle?.getBoundingClientRect();
+        // container is at the bottom - it's height minus diff between top values
+        googleSearch.style.setProperty(
+          'bottom',
+          `${containerRect.height - (googleRect ? (googleRect.top - containerRect.top) : 0) + 5}px`);
+
+        // Now let's set the style observer to detect css changes.
+        this.googleSearch = googleSearch;
+        this.styleObserver.observe(this.googleSearch, { attributes: true, attributeFilter: ['style'] });
+        observer.disconnect();
+      }
+    });
+
+    // Start observing the entire document for added elements.
+    creationObserver.observe(document.body, { childList: true, subtree: true });
   }
 
   public init(): Promise<any> {
     return Promise.resolve()
-      .finally(() => this.panelContainer.style.display = 'block')
-      // Position after elements are added.
-      .then(() => this.positionGoogleSearch());
+      .finally(() => this.panelContainer.style.display = 'block');
   }
 
   public destroy() {
     this.panelContainer.parentElement?.removeChild(this.panelContainer);
-  }
-
-  private positionGoogleSearch() {
-    const containerRect = this.panelContainer.getBoundingClientRect();
-    const googleRect = this.panelGoogle?.getBoundingClientRect();
-    // container is at the bottom - it's height minus diff between top values
-    this.googleSearch?.style.setProperty(
-      'bottom',
-      `${containerRect.height - (googleRect ? (googleRect.top - containerRect.top) : 0) + 5}px`);
   }
 
   private styleMutationObserver(_: MutationRecord[]) {
