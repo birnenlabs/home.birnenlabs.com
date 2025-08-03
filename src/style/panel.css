@@ -7,13 +7,13 @@
   border: none;
   border-radius: 25px;
   /* Pill shape */
-  background-color: rgba(0, 0, 0, 0);
-  color: white;
+  background-color: transparent;
   cursor: pointer;
   filter: grayscale(1);
   font-size: 1.3em;
   margin-bottom: 3px;
   margin-left: -10px;
+  opacity: 0.2;
   padding: 10px;
 }
 
