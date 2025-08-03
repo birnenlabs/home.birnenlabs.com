@@ -1,22 +1,23 @@
 #panel {
   bottom: 0px;
+  padding: 20px;
   position: fixed;
-  width: 100%;
 }
 
 #panel-settings-button {
-  padding: 10px 20px;
   border: none;
   border-radius: 25px;
   /* Pill shape */
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0);
   color: white;
-  font-size: 0.9em;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  filter: grayscale(1);
+  font-size: 1.3em;
+  margin-bottom: 3px;
+  margin-left: -10px;
+  padding: 10px;
 }
 
 #panel-settings-button:hover {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.1);
 }
