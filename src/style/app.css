@@ -1,11 +1,5 @@
 #app {
-  display: flex;
-  justify-content: center;
-  /* Horizontally center the grid */
-  align-items: center;
-  /* Vertically center the grid */
   padding: 20px;
-  box-sizing: border-box;
 }
 
 /* --- Grid Container for Modules --- */
@@ -16,55 +10,38 @@
   gap: 24px;
   width: 100%;
   max-width: 800px;
-  /* Optional: prevent grid from being too wide */
 }
 
 /* --- Individual Icon & Label Container --- */
 .app-configElement-link {
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 8px;
-  /* Space between icon and label */
 }
 
 /* --- The Clickable Icon Anchor --- */
 .app-configElement-link-anchor {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  background-color: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  height: 50px;
+  width: 50px;
 }
 
-/* Hover effect to "lift" the icon */
-.app-configElement-link-anchor:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-}
-
-/* --- The Image Inside the Icon --- */
 .app-configElement-link-anchor img {
-  width: 100%;
+  border-radius: 16px;
   height: 100%;
   object-fit: cover;
-  /* Ensures icon fills the space nicely */
-  border-radius: 16px;
-  /* Match the parent's border-radius */
+  width: 100%;
 }
 
-/* --- The Text Label Below the Icon --- */
 .app-configElement-link-label {
-  font-size: 0.9em;
   color: #343a40;
+  font-size: 0.9em;
+  /* We have grid width of 70 and 24 gap */
+  max-width: 90px;
   text-align: center;
-  max-width: 70px;
-  /* Prevent long labels from breaking the layout */
-
-  /* Ellipsis for long labels */
+  
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -16,6 +16,12 @@ body {
   height: 100dvh;
 }
 
+#app {
+  flex-shrink: 1;
+  mask-image: linear-gradient(to bottom, black calc(100% - 20px), transparent 100%);
+  overflow: scroll;
+}
+
 #panel {
   flex-shrink: 0;
   margin-top: auto;
