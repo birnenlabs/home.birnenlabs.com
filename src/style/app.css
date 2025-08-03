@@ -1,5 +1,5 @@
 #app {
-  padding: 20px;
+  padding: 20px 5px 20px 5px;
 }
 
 /* --- Grid Container for Modules --- */
@@ -7,7 +7,7 @@
   display: grid;
   /* Create a responsive grid: columns are at least 70px wide */
   grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  gap: 24px;
+  gap: 15px;
   width: 100%;
   max-width: 800px;
 }
@@ -38,8 +38,8 @@
 .app-configElement-link-label {
   color: #343a40;
   font-size: 0.9em;
-  /* We have grid width of 70 and 24 gap */
-  max-width: 90px;
+  /* We have grid width of 70 and 15 gap */
+  max-width: 80px;
   text-align: center;
   
   white-space: nowrap;
