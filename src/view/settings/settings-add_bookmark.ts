@@ -1,6 +1,6 @@
-import { ConfigurationLink, ConfigurationType } from '../configuration/config';
-import { getIconForUrl } from '../configuration/image';
-import { EMPTY_SVG, LOADING_IMG } from './settings';
+import { Configuration, ConfigurationLink, ConfigurationType } from '../../configuration/config';
+import { getIconForUrl } from '../../configuration/image';
+import { EMPTY_SVG, LOADING_IMG } from '../settings';
 
 const PROTOCOL_REGEX = /^[a-zA-Z]+:/;
 
@@ -14,10 +14,21 @@ export class SettingsAddBookmarkView {
   readonly addBookmarkCallback: (link: ConfigurationLink) => void;
 
   constructor(addBookmarkCallback: (link: ConfigurationLink) => void) {
+    this.addBookmarkCallback = addBookmarkCallback;
+  }
+
+  public init(_: Configuration): Promise<any> {
+    this.init = () => { throw new Error('Class has already been initialized.') };
+
     this.add.addEventListener('click', this.addClick.bind(this));
     this.url.addEventListener('change', this.urlChange.bind(this));
     this.favicon.addEventListener('change', this.faviconChange.bind(this));
-    this.addBookmarkCallback = addBookmarkCallback;
+    
+    return Promise.resolve();
+  }
+
+  public destroy(): void {
+    this.preview.src = '';
   }
 
   private addClick(): void {

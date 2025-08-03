@@ -1,0 +1,22 @@
+#panel {
+  bottom: 0px;
+  position: fixed;
+  width: 100%;
+}
+
+#panel-settings-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  /* Pill shape */
+  background-color: rgba(0, 0, 0, 0.15);
+  color: white;
+  font-size: 0.9em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#panel-settings-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}

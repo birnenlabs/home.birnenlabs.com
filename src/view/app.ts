@@ -1,17 +1,19 @@
-import { configFromUrl, Configuration, ConfigurationType, ConfigurationLink } from '../configuration/config';
+import { Configuration, ConfigurationType, ConfigurationLink } from '../configuration/config';
 import { getFallbackIconForUrl } from '../configuration/image';
 
 
 export class AppView {
   readonly appContainer = document.getElementById('app') as HTMLDivElement;
-  readonly modules = document.getElementById('modules') as HTMLDivElement;
+  readonly modules = document.getElementById('app-modules') as HTMLDivElement;
 
   constructor() {
   }
 
-  public render(): Promise<any> {
-    return configFromUrl()
-      .then((config: Configuration) => {
+  public init(config: Configuration): Promise<any> {
+    this.init = () => { throw new Error('Class has already been initialized.') };
+  
+    return Promise.resolve(config)
+      .then((config) => {
         this.modules.innerHTML = '';
         (config.elements || []).forEach((configElement) => {
 
