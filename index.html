@@ -11,51 +11,54 @@
 </head>
 
 <body>
-  <!-- CSS is set directly here so it is available as soon as the app is loaded. -->
-  <div id="loading"
-    style="position: fixed; top: calc(50% - 32px); left: calc(50% - 32px); width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.8);">
-    <img src="/loading.svg" alt="Loading" />
-  </div>
-  <div id="app" style="display: none;">
-    <div id="app-modules"></div>
-  </div>
-
-  <div id="panel" style="display: none;">
-    <button id="panel-settings-button">⚙</button>
-    <div id="panel-google">
-      <div class="gcse-searchbox-only" data-resultsUrl="http://www.google.com/search" data-queryParameterName="q"></div>
+  <div id="main">
+    <!-- CSS is set directly here so it is available as soon as the app is loaded. -->
+    <div id="loading"
+      style="position: fixed; top: calc(50% - 32px); left: calc(50% - 32px); width: 64px; height: 64px; background-color: rgba(255, 255, 255, 0.8);">
+      <img src="/loading.svg" alt="Loading" />
     </div>
-  </div>
-
-
-  <div id="settings" style="display: none;">
-    <h1>Add bookmark</h1>
-    <div id="settings-addBookmark">
-      <label for="settings-addBookmark-name">Name:</label>
-      <input id="settings-addBookmark-name" type="text" />
-      <label for="settings-addBookmark-url">URL:</label>
-      <input id="settings-addBookmark-url" type="text" />
-      <label for="settings-addBookmark-favicon">Favicon:</label>
-      <input id="settings-addBookmark-favicon" type="text" />
-      <img id="settings-addBookmark-preview" src="/empty.svg" alt="Favicon Preview" />
-      <button id="settings-addBookmark-add">Add</button>
+    <div id="app" style="display: none;">
+      <div id="app-modules"></div>
     </div>
 
-    <h1>Page Elements</h1>
-    <div id="settings-elementsList">
-      <div id="settings-elementsList-list">
-        <!-- Dynamically created in settings-elements_list.ts -->
+    <div id="panel" style="display: none;">
+      <button id="panel-settings-button">⚙</button>
+      <div id="panel-google">
+        <div class="gcse-searchbox-only" data-resultsUrl="http://www.google.com/search" data-queryParameterName="q">
+        </div>
       </div>
     </div>
 
-    <h1>Save</h1>
-    <p>In order to save the settings, simply bookmark the following link</p>
-    <a id="settings-link" href="#">Link</a>
 
-    <h1>Raw configuration</h1>
-    <button id="settings-showRawConfig">Show Raw Configuration</button>
-    <pre id="settings-rawConfig" class="hidden"></pre>
+    <div id="settings" style="display: none;">
+      <h1>Add bookmark</h1>
+      <div id="settings-addBookmark">
+        <label for="settings-addBookmark-name">Name:</label>
+        <input id="settings-addBookmark-name" type="text" />
+        <label for="settings-addBookmark-url">URL:</label>
+        <input id="settings-addBookmark-url" type="text" />
+        <label for="settings-addBookmark-favicon">Favicon:</label>
+        <input id="settings-addBookmark-favicon" type="text" />
+        <img id="settings-addBookmark-preview" src="/empty.svg" alt="Favicon Preview" />
+        <button id="settings-addBookmark-add">Add</button>
+      </div>
 
+      <h1>Page Elements</h1>
+      <div id="settings-elementsList">
+        <div id="settings-elementsList-list">
+          <!-- Dynamically created in settings-elements_list.ts -->
+        </div>
+      </div>
+
+      <h1>Save</h1>
+      <p>In order to save the settings, simply bookmark the following link</p>
+      <a id="settings-link" href="#">Link</a>
+
+      <h1>Raw configuration</h1>
+      <button id="settings-showRawConfig">Show Raw Configuration</button>
+      <pre id="settings-rawConfig" class="hidden"></pre>
+
+    </div>
   </div>
 </body>
 
