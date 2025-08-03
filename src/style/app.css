@@ -1,5 +1,5 @@
 #app {
-  padding: 20px 5px 20px 5px;
+  padding: 20px 8px 20px 8px;
 }
 
 /* --- Grid Container for Modules --- */
@@ -37,7 +37,7 @@
 
 .app-configElement-link-label {
   color: #343a40;
-  font-size: 0.9em;
+  font-size: 0.8em;
   /* We have grid width of 70 and 15 gap */
   max-width: 80px;
   text-align: center;
