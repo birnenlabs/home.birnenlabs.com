@@ -20,8 +20,8 @@ export class PanelView {
   }
 
   private createObservers() {
-    // This observer watches for style changes. It will be initialised after the Google
-    // autocomplete element is added.
+    // This observer watches for style changes.
+    // It will be initialised after the Google autocomplete element is added.
     const styleObserver = new MutationObserver(this.styleMutationObserver.bind(this));
 
     // This observer watches for the autocomplete element to be added to the page.
@@ -30,25 +30,17 @@ export class PanelView {
 
       if (googleSearch) {
         console.log('Google autocomplete container found.');
-
-        // Google code is only modifying `top` property - let's calculate the bottom property
-        // once.
-        const panelGoogleRect = this.panelGoogle.getBoundingClientRect();
-        // container is at the bottom - it's height minus diff between top values
-        googleSearch.style.setProperty(
-          'bottom',
-          // height of panel + padding + some extra space
-          `${panelGoogleRect.height + 30}px`);
-
-        // Now let's set the style observer to detect css changes.
         this.googleSearch = googleSearch;
+        this.repositionObserver();
         styleObserver.observe(this.googleSearch, { attributes: true, attributeFilter: ['style'] });
         observer.disconnect();
       }
     });
-
-    // Start observing the entire document for added elements.
     creationObserver.observe(document.body, { childList: true, subtree: true });
+
+    // This observer watches for resize changes.
+    const resizeObserver = new ResizeObserver(() => this.repositionObserver());
+    resizeObserver.observe(this.panelGoogle);
   }
 
   private styleMutationObserver(_: MutationRecord[]) {
@@ -57,6 +49,18 @@ export class PanelView {
     // observer.
     if (this.googleSearch?.style.top) {
       this.googleSearch.style.removeProperty('top');
+    }
+  }
+
+  private repositionObserver() {
+    if (this.googleSearch && this.panelGoogle) {
+      const panelGoogleRect = this.panelGoogle.getBoundingClientRect();
+      // Calculate bottom position based on the panel's current height
+      this.googleSearch.style.setProperty(
+        'bottom',
+        // height of panel + padding
+        `${panelGoogleRect.height + 30}px`
+      );
     }
   }
 }
