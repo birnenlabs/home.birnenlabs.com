@@ -2,6 +2,7 @@ import { configToUrl, Configuration, ConfigurationElement } from "../../configur
 
 export class SettingsRawView {
   readonly link = document.getElementById('settings-link') as HTMLAnchorElement;
+  readonly linkCounter = document.getElementById('settings-link-counter') as HTMLSpanElement;
   readonly showRawConfigButton = document.getElementById('settings-showRawConfig') as HTMLButtonElement;
   readonly rawConfig = document.getElementById('settings-rawConfig') as HTMLPreElement;
 
@@ -52,8 +53,10 @@ export class SettingsRawView {
     this.link.href = '#';
     return configToUrl(configuration)
       .then(url => {
-        this.link.innerText = url.toString();
-        this.link.href = url.toString();
+        const urlStr = url.toString();
+        this.link.innerText = urlStr;
+        this.link.href = urlStr;
+        this.linkCounter.textContent = `${urlStr.length}`;
       })
       .catch(error => this.link.innerText = `Error generating link: ${error.message}`);
   }

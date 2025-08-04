@@ -4,14 +4,6 @@
   margin: 10px;
   padding: 20px;
 
-  h1 {
-    font-size: 1.3em;
-    color: #555;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 0.25em;
-    margin: 1.5em 0 0.5em 0;
-  }
-
   h1:first-of-type {
     margin-top: 0;
   }
@@ -213,6 +205,13 @@
   background-color: #dee2e6;
 }
 
+#settings-link-counter {
+  background-color: #e9ecef;
+  border-radius: 4px;
+  color: #495057;
+  font-weight: bold;
+  padding: 2px;
+}
 
 /* --- Raw Config Section Styling --- */
 

@@ -10,6 +10,21 @@ body {
   display: none;
 }
 
+h1 {
+  font-size: 1.3em;
+  color: #555;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.25em;
+  margin: 1.5em 0 0.5em 0;
+}
+
+h2 {
+  font-size: 1.0em;
+  color: #555;
+  padding-bottom: 0.25em;
+  margin: 1.5em 0 0.5em 0;
+}
+
 #main {
   display: flex;
   flex-direction: column;
