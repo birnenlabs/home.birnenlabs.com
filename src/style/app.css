@@ -33,6 +33,7 @@
   height: 100%;
   object-fit: cover;
   width: 100%;
+  filter: sepia(20%) brightness(120%);
 }
 
 .app-configElement-link-label {
